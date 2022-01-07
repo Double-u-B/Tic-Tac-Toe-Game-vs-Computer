@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kółko i Krzyżyk</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/media.css" />
+    <link rel="stylesheet" href="css/winLine.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Lobster&family=Roboto+Mono:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="shortcut icon" type="image/x-icon" href="icon.png" />
+  </head>
+
+  <body>
+    <div class="main">
+      <div class="players no-select">
+        <div class="playerName">
+          <div class="img-box"><i class="fas fa-user"></i></div>
+          <div class="text">
+            <p>Name[]:</p>
+          </div>
+        </div>
+
+        <div class="computer">
+          <div class="img-box"><i class="fas fa-user"></i></div>
+          <div class="text">
+            <p>Name[]:</p>
+          </div>
+        </div>
+
+        <div class="inDraw">
+          <p>
+            Played to <br />
+            a draw: 
+          </p>
+        </div>
+      </div>
+
+      <div class="table no-select">
+      </div>
+
+      <div class="reset">
+        <div class="reset-div">
+          <div class="reset-btn no-select">X</div>
+          <i class="fas fa-exchange-alt"></i>
+          <div class="reset-btn no-select">O</div>
+        </div>
+      </div>
+      <div class="footer">
+        <p>
+          made by
+          <a href="https://www.facebook.com/VladyslavBalandin/" target="blank"
+            >Władysław Balandin</a
+          >
+        </p>
+      </div>
+
+      <div class="modal-overlay">
+        <div class="modal-container">
+          <h1 class="no-select">Hello my friend! Wanna play with me?</h1>
+          <div class="name-input">
+            <h2 class="no-select">Type your name:</h2>
+            <input type="text" class="name" />
+          </div>
+          <div class="container-select-side">
+            <div class="select-side">
+              <div class="sideX no-select">X</div>
+              <div class="sideO no-select">O</div>
+            </div>
+            <div class="back-btn"><i class="fas fa-undo-alt"></i></div>
+          </div>
+          <button class="btn-start no-select">Let's play</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/main.js" type="module"></script>
+  </body>
+</html>
