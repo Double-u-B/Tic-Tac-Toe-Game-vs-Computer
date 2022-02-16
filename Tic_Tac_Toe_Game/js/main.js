@@ -1,15 +1,7 @@
-import { compData } from "./data.js";
 import { loadTable } from "./loadTable.js";
-
+import { getPlayer } from "./fetch.js";
 import { playerWins, compWins, gameInDraw } from "./checkClicks.js";
-
-import {
-  startGame,
-  allMadeClicks,
-  playerClicks,
-  compClicks,
-  refreshTable,
-} from "./startGame.js";
+import { startGame } from "./startGame.js";
 
 const modalOverlay = document.querySelector(".modal-overlay");
 const modalContainer = modalOverlay.querySelector(".modal-container");
@@ -30,10 +22,14 @@ const resetBtn = document.querySelectorAll(".reset-btn");
 
 const $ = document.querySelector.bind(document);
 
-const randomCompName = compData[Math.floor(Math.random() * compData.length)];
-
 let playerSide = "";
 let computerSide = "";
+
+/* Get Data */
+let compPlayer;
+getPlayer().then((player) => {
+  return (compPlayer = player);
+});
 
 /* Load table */
 
@@ -66,18 +62,18 @@ backBtn.addEventListener("click", () => {
 /* Button Start Game*/
 
 modalContainer.addEventListener("click", () => {
-  (input.value && (sideX.classList.contains("chosenSide") ||
-    sideX.classList.contains("vsSide")))?
-    btnStart.classList.add("done"):
-    btnStart.classList.remove("done")
+  input.value &&
+  (sideX.classList.contains("chosenSide") || sideX.classList.contains("vsSide"))
+    ? btnStart.classList.add("done")
+    : btnStart.classList.remove("done");
 });
 
-input.addEventListener("keyup", ()=>{
+input.addEventListener("keyup", () => {
   input.value != "" &&
   (sideX.classList.contains("chosenSide") || sideX.classList.contains("vsSide"))
     ? btnStart.classList.add("done")
     : btnStart.classList.remove("done");
-})
+});
 
 btnStart.addEventListener("click", () => {
   if (input.value === "") {
@@ -114,13 +110,14 @@ btnStart.addEventListener("click", () => {
       playerName.innerHTML = `<div class="img-box show-turn"><i class="fas fa-user"></i></div>
       <div class="text"><p>${input.value} <br /> [<span class="side-font">${playerSide}</span>]: <span class="yellow-color">${playerWins}<span></p></div>`;
 
-      computer.innerHTML = `<div class="img-box"><img src=${randomCompName.img}/></div><div class="text"><p>
-      ${randomCompName.name} <br /> [<span class="side-font">${computerSide}</span>]: <span class="yellow-color">
+      computer.innerHTML = `<div class="img-box"><img src=${compPlayer.img}></div><div class="text"><p>
+      ${compPlayer.name} <br /> [<span class="side-font">${computerSide}</span>]: <span class="yellow-color">
       ${compWins}<span></p></div>`;
 
       inDraw.innerHTML = `<p>Played to <br/> a draw: <span class="red-color">${gameInDraw}<span></p>`;
     }, 250);
   }
+
   startGame();
 });
 
@@ -134,17 +131,13 @@ resetBtn.forEach((btn) =>
 
 export {
   line,
-  refreshTable,
-  playerClicks,
-  compClicks,
-  allMadeClicks,
   inDraw,
   input,
   playerSide,
   playerName,
   computer,
-  randomCompName,
   computerSide,
   table,
   tableBoxes,
+  compPlayer,
 };
