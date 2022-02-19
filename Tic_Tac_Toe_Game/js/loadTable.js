@@ -2,9 +2,9 @@ import { table } from "./main.js";
 
 const $$ = document.querySelectorAll.bind(document);
 
-const loadTable = () =>{
+const loadTable = () => {
   table.style.backgroundColor = "#1d3557";
-    return `<div class="box t0"></div>
+  return `<div class="box t0"></div>
         <div class="box t1"></div>
         <div class="box t2"></div>
         <div class="box t3"></div>
@@ -16,7 +16,6 @@ const loadTable = () =>{
         <div class="winLine">
           <p></p>
         </div>`;
-}
+};
 
-
-export {loadTable }
+export { loadTable };

@@ -1,29 +1,21 @@
 import { checkTurn } from "./checkTurn.js";
-
+import { checkSet } from "./checkSet.js";
 import {
-  refreshTable,
-  playerClicks,
-  compClicks,
-  allMadeClicks,
   inDraw,
   input,
   playerSide,
   playerName,
   computer,
-  randomCompName,
   computerSide,
+  compPlayer,
 } from "./main.js";
-
 import {
-  horizontalTopWin,
-  horizontalMidWin,
-  horizontalBotWin,
-  verticalLeftWin,
-  verticalMidWin,
-  verticalRightWin,
-  rightAngleWin,
-  leftAngleWin,
-} from "./showLine.js";
+  refreshTable,
+  playerClicks,
+  compClicks,
+  allMadeClicks,
+} from "./startGame.js";
+import { showWinLine } from "./showLine.js";
 
 let playerWins = "0";
 let compWins = "0";
@@ -33,169 +25,104 @@ const checkGame = () => {
   let wins = 0;
 
   if (playerClicks.length >= 3 || compClicks.length >= 3) {
-    if (
-      playerClicks.includes("0") &&
-      playerClicks.includes("1") &&
-      playerClicks.includes("2")
-    ) {
-      horizontalTopWin();
+    if (checkSet(["0", "1", "2"], "player")) {
+      showWinLine("horizontalTopWin");
       playerWins++;
       wins++;
     }
 
-    if (
-      compClicks.includes("0") &&
-      compClicks.includes("1") &&
-      compClicks.includes("2")
-    ) {
-      horizontalTopWin();
+    if (checkSet(["0", "1", "2"], "comp")) {
+      showWinLine("horizontalTopWin");
       compWins++;
       wins++;
     }
 
-    if (
-      playerClicks.includes("3") &&
-      playerClicks.includes("4") &&
-      playerClicks.includes("5")
-    ) {
-      horizontalMidWin();
+    if (checkSet(["3", "4", "5"], "player")) {
+      showWinLine("horizontalMidWin");
       playerWins++;
       wins++;
     }
 
-    if (
-      compClicks.includes("3") &&
-      compClicks.includes("4") &&
-      compClicks.includes("5")
-    ) {
-      horizontalMidWin();
+    if (checkSet(["3", "4", "5"], "comp")) {
+      showWinLine("horizontalMidWin");
       compWins++;
       wins++;
     }
 
-    if (
-      playerClicks.includes("6") &&
-      playerClicks.includes("7") &&
-      playerClicks.includes("8")
-    ) {
-      horizontalBotWin();
+    if (checkSet(["6", "7", "8"], "player")) {
+      showWinLine("horizontalBotWin");
       playerWins++;
       wins++;
     }
 
-    if (
-      compClicks.includes("6") &&
-      compClicks.includes("7") &&
-      compClicks.includes("8")
-    ) {
-      horizontalBotWin();
+    if (checkSet(["6", "7", "8"], "comp")) {
+      showWinLine("horizontalBotWin");
       compWins++;
       wins++;
     }
 
-    if (
-      playerClicks.includes("0") &&
-      playerClicks.includes("3") &&
-      playerClicks.includes("6")
-    ) {
-      verticalLeftWin();
+    if (checkSet(["0", "3", "6"], "player")) {
+      showWinLine("verticalLeftWin");
       playerWins++;
       wins++;
     }
 
-    if (
-      compClicks.includes("0") &&
-      compClicks.includes("3") &&
-      compClicks.includes("6")
-    ) {
-      verticalLeftWin();
+    if (checkSet(["0", "3", "6"], "comp")) {
+      showWinLine("verticalLeftWin");
       compWins++;
       wins++;
     }
 
-    if (
-      playerClicks.includes("1") &&
-      playerClicks.includes("4") &&
-      playerClicks.includes("7")
-    ) {
-      verticalMidWin();
+    if (checkSet(["1", "4", "7"], "player")) {
+      showWinLine("verticalMidWin");
       playerWins++;
       wins++;
     }
 
-    if (
-      compClicks.includes("1") &&
-      compClicks.includes("4") &&
-      compClicks.includes("7")
-    ) {
-      verticalMidWin();
+    if (checkSet(["1", "4", "7"], "comp")) {
+      showWinLine("verticalMidWin");
       compWins++;
       wins++;
     }
 
-    if (
-      playerClicks.includes("2") &&
-      playerClicks.includes("5") &&
-      playerClicks.includes("8")
-    ) {
-      verticalRightWin();
+    if (checkSet(["2", "5", "8"], "player")) {
+      showWinLine("verticalRightWin");
       playerWins++;
       wins++;
     }
 
-    if (
-      compClicks.includes("2") &&
-      compClicks.includes("5") &&
-      compClicks.includes("8")
-    ) {
-      verticalRightWin();
+    if (checkSet(["2", "5", "8"], "comp")) {
+      showWinLine("verticalRightWin");
       compWins++;
       wins++;
     }
 
-    if (
-      playerClicks.includes("2") &&
-      playerClicks.includes("4") &&
-      playerClicks.includes("6")
-    ) {
-      rightAngleWin();
+    if (checkSet(["2", "4", "6"], "player")) {
+      showWinLine("rightAngleWin");
       playerWins++;
       wins++;
     }
 
-    if (
-      compClicks.includes("2") &&
-      compClicks.includes("4") &&
-      compClicks.includes("6")
-    ) {
-      rightAngleWin();
+    if (checkSet(["2", "4", "6"], "comp")) {
+      showWinLine("rightAngleWin");
       compWins++;
       wins++;
     }
 
-    if (
-      playerClicks.includes("0") &&
-      playerClicks.includes("4") &&
-      playerClicks.includes("8")
-    ) {
-      leftAngleWin();
+    if (checkSet(["0", "4", "8"], "player")) {
+      showWinLine("leftAngleWin");
       playerWins++;
       wins++;
     }
 
-    if (
-      compClicks.includes("0") &&
-      compClicks.includes("4") &&
-      compClicks.includes("8")
-    ) {
-      leftAngleWin();
+    if (checkSet(["0", "4", "8"], "comp")) {
+      showWinLine("leftAngleWin");
       compWins++;
       wins++;
     }
   }
 
   if (allMadeClicks.length === 9 && wins === 0) {
-
     setTimeout(() => {
       gameInDraw++;
       inDraw.innerHTML = `<p>Played to <br/> a draw: <span class="red-color">${gameInDraw}<span></p>`;
@@ -207,7 +134,9 @@ const checkGame = () => {
     playerName.innerHTML = `<div class="img-box"><i class="fas fa-user"></i></div>
     <div class="text"><p>${input.value} <br/> [<span class="side-font">${playerSide}</span>]: <span class="yellow-color">${playerWins}<span></p></div>`;
 
-    computer.innerHTML = `<div class="img-box"><img src=${randomCompName.img}/></div><div class="text"><p>${randomCompName.name}<br/> [<span class="side-font">${computerSide}</span>]: <span class="yellow-color">${compWins}<span></p></div>`;
+    computer.innerHTML = `<div class="img-box"><img src=${compPlayer.img}></div><div class="text"><p>
+      ${compPlayer.name} <br /> [<span class="side-font">${computerSide}</span>]: <span class="yellow-color">
+      ${compWins}<span></p></div>`;
   }
 
   checkTurn();
