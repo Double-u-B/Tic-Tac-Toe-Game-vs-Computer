@@ -1,6 +1,7 @@
 import { table, tableBoxes, playerSide, computerSide } from "./main.js";
 import { checkGame } from "./checkClicks.js";
 import { checkSet } from "./checkSet.js";
+import { combinations } from "./winComb.js";
 
 const allPossibleClicks = ["0", "1", "2", "3", "4", "5", "6", "7", "8"];
 let allMadeClicks = [];
@@ -36,18 +37,18 @@ const addItem = (number) => {
   allMadeClicks.push(number);
 };
 
-let clickSpeed;
 /* Start Game function */
 const startGame = () => {
-  table.addEventListener("click", (e) => {
-    const speedRate = [1550, 2000, 2300];
-    let ranNum = Math.floor(Math.random() * speedRate.length);
+  let clickSpeed;
 
+  table.addEventListener("click", (e) => {
+    const speedRate = [1600, 2000, 2300];
+    let ranNum = Math.floor(Math.random() * speedRate.length);
     if (clickSpeed !== ranNum) clickSpeed = ranNum;
 
     if (ranNum === clickSpeed) {
       clickSpeed += 1;
-      if (clickSpeed > 2) clickSpeed = 0;
+      if (clickSpeed > speedRate.length - 1) clickSpeed = 0;
     }
 
     const click = e.target.classList[1].slice(1);
@@ -63,311 +64,40 @@ const startGame = () => {
     }
 
     setTimeout(() => {
-      let missingClick;
-      let blockingClick;
+      let madeClick = false;
 
-      /* Start of missingClick check */
+      const fillIn = (data) => {
+        addItem(data);
+        writeCompClick(data);
+        madeClick = true;
+      };
 
-      /* horizontal 1 level check for click */
-      if (checkSet(["0", "1"], "comp") && !allMadeClicks.includes("2")) {
-        missingClick = "2";
-        addItem(missingClick);
-        writeCompClick(missingClick);
-      } else if (checkSet(["0", "2"], "comp") && !allMadeClicks.includes("1")) {
-        missingClick = "1";
-        addItem(missingClick);
-        writeCompClick(missingClick);
-      } else if (checkSet(["2", "1"], "comp") && !allMadeClicks.includes("0")) {
-        missingClick = "0";
-        addItem(missingClick);
-        writeCompClick(missingClick);
+      combinations.map((set) => {
+        let firstPart = set.slice(0, 2);
+        let secondPart = set.slice(-1).toString();
 
-        /* horizontal 2 level check for click */
-      } else if (checkSet(["3", "4"], "comp") && !allMadeClicks.includes("5")) {
-        missingClick = "5";
-        addItem(missingClick);
-        writeCompClick(missingClick);
-      } else if (checkSet(["3", "5"], "comp") && !allMadeClicks.includes("4")) {
-        missingClick = "4";
-        addItem(missingClick);
-        writeCompClick(missingClick);
-      } else if (checkSet(["4", "5"], "comp") && !allMadeClicks.includes("3")) {
-        missingClick = "3";
-        addItem(missingClick);
-        writeCompClick(missingClick);
+        if (
+          !madeClick &&
+          checkSet(firstPart, "comp") &&
+          !allMadeClicks.includes(secondPart)
+        ) {
+          fillIn(secondPart);
+        }
+      });
 
-        /* horizontal 3 level check for click */
-      } else if (checkSet(["6", "7"], "comp") && !allMadeClicks.includes("8")) {
-        missingClick = "8";
-        addItem(missingClick);
-        writeCompClick(missingClick);
-      } else if (checkSet(["6", "8"], "comp") && !allMadeClicks.includes("7")) {
-        missingClick = "7";
-        addItem(missingClick);
-        writeCompClick(missingClick);
-      } else if (checkSet(["7", "8"], "comp") && !allMadeClicks.includes("6")) {
-        missingClick = "6";
-        addItem(missingClick);
-        writeCompClick(missingClick);
+      combinations.map((set) => {
+        let firstPart = set.slice(0, 2);
+        let secondPart = set.slice(-1).toString();
+        if (
+          !madeClick &&
+          checkSet(firstPart, "player") &&
+          !allMadeClicks.includes(secondPart)
+        ) {
+          fillIn(secondPart);
+        }
+      });
 
-        /* vertical 1 level check for click */
-      } else if (checkSet(["0", "3"], "comp") && !allMadeClicks.includes("6")) {
-        missingClick = "6";
-        addItem(missingClick);
-        writeCompClick(missingClick);
-      } else if (checkSet(["0", "6"], "comp") && !allMadeClicks.includes("3")) {
-        missingClick = "3";
-        addItem(missingClick);
-        writeCompClick(missingClick);
-      } else if (checkSet(["3", "6"], "comp") && !allMadeClicks.includes("0")) {
-        missingClick = "0";
-        addItem(missingClick);
-        writeCompClick(missingClick);
-
-        /* vertical 2 level check for click */
-      } else if (checkSet(["1", "4"], "comp") && !allMadeClicks.includes("7")) {
-        missingClick = "7";
-        addItem(missingClick);
-        writeCompClick(missingClick);
-      } else if (checkSet(["1", "7"], "comp") && !allMadeClicks.includes("4")) {
-        missingClick = "4";
-        addItem(missingClick);
-        writeCompClick(missingClick);
-      } else if (checkSet(["4", "7"], "comp") && !allMadeClicks.includes("1")) {
-        missingClick = "1";
-        addItem(missingClick);
-        writeCompClick(missingClick);
-
-        /* vertical 3 level check for click */
-      } else if (checkSet(["2", "5"], "comp") && !allMadeClicks.includes("8")) {
-        missingClick = "8";
-        addItem(missingClick);
-        writeCompClick(missingClick);
-      } else if (checkSet(["2", "8"], "comp") && !allMadeClicks.includes("5")) {
-        missingClick = "5";
-        addItem(missingClick);
-        writeCompClick(missingClick);
-      } else if (checkSet(["5", "8"], "comp") && !allMadeClicks.includes("2")) {
-        missingClick = "2";
-        addItem(missingClick);
-        writeCompClick(missingClick);
-
-        /* diagonal leftTop to rightBottom check for click */
-      } else if (checkSet(["0", "4"], "comp") && !allMadeClicks.includes("8")) {
-        missingClick = "8";
-        addItem(missingClick);
-        writeCompClick(missingClick);
-      } else if (checkSet(["0", "8"], "comp") && !allMadeClicks.includes("4")) {
-        missingClick = "4";
-        addItem(missingClick);
-        writeCompClick(missingClick);
-      } else if (checkSet(["4", "8"], "comp") && !allMadeClicks.includes("0")) {
-        missingClick = "0";
-        addItem(missingClick);
-        writeCompClick(missingClick);
-
-        /* diagonal leftBottom to rightTop check for click */
-      } else if (checkSet(["2", "4"], "comp") && !allMadeClicks.includes("6")) {
-        missingClick = "6";
-        addItem(missingClick);
-        writeCompClick(missingClick);
-      } else if (checkSet(["2", "6"], "comp") && !allMadeClicks.includes("4")) {
-        missingClick = "4";
-        addItem(missingClick);
-        writeCompClick(missingClick);
-      } else if (checkSet(["4", "6"], "comp") && !allMadeClicks.includes("2")) {
-        missingClick = "2";
-        addItem(missingClick);
-        writeCompClick(missingClick);
-        /* End of missingClick check */
-
-        /* Start of blocking check */
-        /* horizontal 1 level */
-      } else if (
-        checkSet(["0", "1"], "player") &&
-        !allMadeClicks.includes("2")
-      ) {
-        blockingClick = "2";
-        addItem(blockingClick);
-        writeCompClick(blockingClick);
-      } else if (
-        checkSet(["0", "2"], "player") &&
-        !allMadeClicks.includes("1")
-      ) {
-        blockingClick = "1";
-        addItem(blockingClick);
-        writeCompClick(blockingClick);
-      } else if (
-        checkSet(["1", "2"], "player") &&
-        !allMadeClicks.includes("0")
-      ) {
-        blockingClick = "0";
-        addItem(blockingClick);
-        writeCompClick(blockingClick);
-
-        /* horizontal 2 level */
-      } else if (
-        checkSet(["3", "4"], "player") &&
-        !allMadeClicks.includes("5")
-      ) {
-        blockingClick = "5";
-        addItem(blockingClick);
-        writeCompClick(blockingClick);
-      } else if (
-        checkSet(["3", "5"], "player") &&
-        !allMadeClicks.includes("4")
-      ) {
-        blockingClick = "4";
-        addItem(blockingClick);
-        writeCompClick(blockingClick);
-      } else if (
-        checkSet(["4", "5"], "player") &&
-        !allMadeClicks.includes("3")
-      ) {
-        blockingClick = "3";
-        addItem(blockingClick);
-        writeCompClick(blockingClick);
-
-        /* horizontal 3 level */
-      } else if (
-        checkSet(["6", "7"], "player") &&
-        !allMadeClicks.includes("8")
-      ) {
-        blockingClick = "8";
-        addItem(blockingClick);
-        writeCompClick(blockingClick);
-      } else if (
-        checkSet(["6", "8"], "player") &&
-        !allMadeClicks.includes("7")
-      ) {
-        blockingClick = "7";
-        addItem(blockingClick);
-        writeCompClick(blockingClick);
-      } else if (
-        checkSet(["7", "8"], "player") &&
-        !allMadeClicks.includes("6")
-      ) {
-        blockingClick = "6";
-        addItem(blockingClick);
-        writeCompClick(blockingClick);
-
-        /* vertical 1 level*/
-      } else if (
-        checkSet(["0", "3"], "player") &&
-        !allMadeClicks.includes("6")
-      ) {
-        blockingClick = "6";
-        addItem(blockingClick);
-        writeCompClick(blockingClick);
-      } else if (
-        checkSet(["0", "6"], "player") &&
-        !allMadeClicks.includes("3")
-      ) {
-        blockingClick = "3";
-        addItem(blockingClick);
-        writeCompClick(blockingClick);
-      } else if (
-        checkSet(["3", "6"], "player") &&
-        !allMadeClicks.includes("0")
-      ) {
-        blockingClick = "0";
-        addItem(blockingClick);
-        writeCompClick(blockingClick);
-
-        /* vertical 2 level*/
-      } else if (
-        checkSet(["1", "4"], "player") &&
-        !allMadeClicks.includes("7")
-      ) {
-        blockingClick = "7";
-        addItem(blockingClick);
-        writeCompClick(blockingClick);
-      } else if (
-        checkSet(["1", "7"], "player") &&
-        !allMadeClicks.includes("4")
-      ) {
-        blockingClick = "4";
-        addItem(blockingClick);
-        writeCompClick(blockingClick);
-      } else if (
-        checkSet(["4", "7"], "player") &&
-        !allMadeClicks.includes("1")
-      ) {
-        blockingClick = "1";
-        addItem(blockingClick);
-        writeCompClick(blockingClick);
-
-        /* vertical 3 level*/
-      } else if (
-        checkSet(["2", "5"], "player") &&
-        !allMadeClicks.includes("8")
-      ) {
-        blockingClick = "8";
-        addItem(blockingClick);
-        writeCompClick(blockingClick);
-      } else if (
-        checkSet(["2", "8"], "player") &&
-        !allMadeClicks.includes("5")
-      ) {
-        blockingClick = "5";
-        addItem(blockingClick);
-        writeCompClick(blockingClick);
-      } else if (
-        checkSet(["5", "8"], "player") &&
-        !allMadeClicks.includes("2")
-      ) {
-        blockingClick = "2";
-        addItem(blockingClick);
-        writeCompClick(blockingClick);
-
-        /* diagonal leftTop to rightBottom */
-      } else if (
-        checkSet(["0", "4"], "player") &&
-        !allMadeClicks.includes("8")
-      ) {
-        blockingClick = "8";
-        addItem(blockingClick);
-        writeCompClick(blockingClick);
-      } else if (
-        checkSet(["0", "8"], "player") &&
-        !allMadeClicks.includes("4")
-      ) {
-        blockingClick = "4";
-        addItem(blockingClick);
-        writeCompClick(blockingClick);
-      } else if (
-        checkSet(["4", "8"], "player") &&
-        !allMadeClicks.includes("0")
-      ) {
-        blockingClick = "0";
-        addItem(blockingClick);
-        writeCompClick(blockingClick);
-
-        /* diagonal rightBottom to leftTop */
-      } else if (
-        checkSet(["2", "4"], "player") &&
-        !allMadeClicks.includes("6")
-      ) {
-        blockingClick = "6";
-        addItem(blockingClick);
-        writeCompClick(blockingClick);
-      } else if (
-        checkSet(["2", "6"], "player") &&
-        !allMadeClicks.includes("4")
-      ) {
-        blockingClick = "4";
-        addItem(blockingClick);
-        writeCompClick(blockingClick);
-      } else if (
-        checkSet(["4", "6"], "player") &&
-        !allMadeClicks.includes("2")
-      ) {
-        blockingClick = "2";
-        addItem(blockingClick);
-        writeCompClick(blockingClick);
-
-        /* End of blocking check */
-      } else {
+      if (!madeClick && allMadeClicks.length < 9) {
         /* generate random click */
         let found = allPossibleClicks.filter(
           (number) => allMadeClicks.indexOf(number) < 0
@@ -375,12 +105,15 @@ const startGame = () => {
 
         let randomNumber = found[Math.floor(Math.random() * found.length)];
 
-        let RandomClick = randomNumber.toString();
+        let randomClick = randomNumber.toString();
 
-        addItem(RandomClick);
-        writeCompClick(RandomClick);
+        // addItem(randomClick);
+        // writeCompClick(randomClick);
+        fillIn(randomClick);
       }
       checkGame();
+      
+
       // }, 2500);  - or set static speed
     }, speedRate[clickSpeed]);
   });
