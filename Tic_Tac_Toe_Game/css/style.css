@@ -18,7 +18,8 @@
 
 body {
   font-family: "Architects Daughter", cursive;
-  background-color: var(--secondary-bcg);
+  background-color: var(--primary-bcg);
+
 }
 
 .main {
